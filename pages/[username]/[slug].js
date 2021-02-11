@@ -6,6 +6,7 @@ import { firestore, getUserWithUsername, postToJSON } from '../../lib/firebase';
 
 import styles from '../../styles/Post.module.css';
 import PostContent from '../../components/PostContent';
+import Metatags from '../../components/Metatags';
 
 export default function PostPage({ post: postData, path }) {
   const postRef = firestore.doc(path);
@@ -15,6 +16,8 @@ export default function PostPage({ post: postData, path }) {
 
   return (
     <main className={styles.container}>
+      <Metatags title={post.title} description={post.title} />
+
       <section>
         <PostContent post={post} />
       </section>

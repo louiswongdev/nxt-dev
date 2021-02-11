@@ -18,6 +18,13 @@ export async function getServerSideProps({ query }) {
 
   const userDoc = await getUserWithUsername(username);
 
+  // if no user, trigger 404 page
+  if (!userDoc) {
+    return {
+      notFound: true,
+    };
+  }
+
   if (userDoc) {
     user = userDoc.data();
 
