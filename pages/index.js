@@ -16,7 +16,7 @@ export default function Home({ posts: allPosts }) {
     setLoading(true);
     const lastPost = posts[posts.length - 1];
 
-    // check createAt field type. We'll need to make sure it's
+    // check createAt field type. We'll need to make sure it's in timestamp format
     // If from server --> Firestore's timestamp format
     // If from client --> number format
     const cursor =
