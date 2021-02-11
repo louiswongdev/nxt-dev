@@ -48,7 +48,6 @@ function UsernameForm() {
   const [formValue, setFormValue] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [touched, setTouched] = useState(false);
 
   const { user, username } = useContext(UserContext);
 
@@ -94,7 +93,6 @@ function UsernameForm() {
   };
 
   const onChange = e => {
-    setTouched(true);
     const val = e.target.value.toLowerCase();
     // Force form value typed in form to match correct format
     const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
@@ -125,12 +123,13 @@ function UsernameForm() {
             onChange={onChange}
           />
 
-          <UsernameMessage
-            username={formValue}
-            isValid={isValid}
-            loading={loading}
-            touched={touched}
-          />
+          {formValue.length > 2 && (
+            <UsernameMessage
+              username={formValue}
+              isValid={isValid}
+              loading={loading}
+            />
+          )}
 
           <button type="submit" className="btn-green" disabled={!isValid}>
             Choose
@@ -150,20 +149,13 @@ function UsernameForm() {
   );
 }
 
-function UsernameMessage({ username, isValid, loading, touched }) {
-  console.log('username length:', username.length);
+function UsernameMessage({ username, isValid, loading }) {
   if (loading) {
     return <p>Checking...</p>;
   } else if (isValid) {
     return <p className="text-success">{username} is available!</p>;
   } else if (username && !isValid) {
     return <p className="text-danger">That username is taken!</p>;
-  } else if (touched && username.length > 0 && username.length < 3) {
-    return (
-      <p className="text-danger">Usernames must be 3 or more characters</p>
-    );
-  } else if (touched && username.length === 0) {
-    return <p></p>;
   } else {
     return <p></p>;
   }
