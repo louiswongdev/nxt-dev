@@ -13,11 +13,10 @@ export default function UserProfilePage({ user, posts }) {
 
 export async function getServerSideProps({ query }) {
   const { username } = query;
-
-  const userDoc = await getUserWithUsername(username);
-
   let user = null;
   let posts = null;
+
+  const userDoc = await getUserWithUsername(username);
 
   if (userDoc) {
     user = userDoc.data();
@@ -29,6 +28,7 @@ export async function getServerSideProps({ query }) {
       .limit(5);
 
     posts = (await postsQuery.get()).docs.map(postToJSON);
+    console.log('posts', posts);
   }
 
   return {
