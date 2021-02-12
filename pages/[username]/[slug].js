@@ -34,7 +34,6 @@ export default function PostPage({ post: postData, path }) {
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
   const userDoc = await getUserWithUsername(username);
-  console.log('userDoc ref:', userDoc.ref);
 
   let post;
   let path;
