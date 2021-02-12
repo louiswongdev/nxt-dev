@@ -1,6 +1,17 @@
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
+const renderers = {
+  code: ({ language, value }) => {
+    return (
+      <SyntaxHighlighter style={okaidia} language={language} children={value} />
+    );
+  },
+};
+
 export default function PostContent({ post }) {
   const createdAt =
     typeof post?.createdAt === 'number'
@@ -17,7 +28,7 @@ export default function PostContent({ post }) {
         </Link>{' '}
         on {createdAt.toISOString()}
       </span>
-      <ReactMarkdown>{post?.content}</ReactMarkdown>
+      <ReactMarkdown renderers={renderers}>{post?.content}</ReactMarkdown>
     </div>
   );
 }

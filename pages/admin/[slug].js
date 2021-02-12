@@ -12,6 +12,17 @@ import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
+const renderers = {
+  code: ({ language, value }) => {
+    return (
+      <SyntaxHighlighter style={okaidia} language={language} children={value} />
+    );
+  },
+};
+
 export default function AdmindPostEdit() {
   return (
     <AuthCheck>
@@ -33,6 +44,8 @@ function PostManager() {
     .doc(slug);
 
   const [post] = useDocumentDataOnce(postRef);
+
+  console.log('post data:', post);
 
   return (
     <main className={styles.container}>
@@ -89,7 +102,9 @@ function PostForm({ defaultValues, postRef, preview }) {
     <form onSubmit={handleSubmit(updatePost)}>
       {preview && (
         <div className="card">
-          <ReactMarkdown>{watch('content')}</ReactMarkdown>
+          <ReactMarkdown renderers={renderers}>
+            {watch('content')}
+          </ReactMarkdown>
         </div>
       )}
 
