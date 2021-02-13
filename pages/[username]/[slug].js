@@ -7,6 +7,8 @@ import { firestore, getUserWithUsername, postToJSON } from '../../lib/firebase';
 import styles from '../../styles/Post.module.css';
 import PostContent from '../../components/PostContent';
 import Metatags from '../../components/Metatags';
+import AuthCheck from '../../components/AuthCheck';
+import HeartButton from '../../components/HeartButton';
 
 export default function PostPage({ post: postData, path }) {
   const postRef = firestore.doc(path);
@@ -26,6 +28,16 @@ export default function PostPage({ post: postData, path }) {
         <p>
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
+
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>💗 Sign Up</button>
+            </Link>
+          }
+        >
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
       </aside>
     </main>
   );
