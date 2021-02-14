@@ -70,14 +70,13 @@ function UsernameForm() {
   );
 
   const onSubmit = async e => {
-    console.log('submitted');
     e.preventDefault();
 
     const userDocRef = firestore.doc(`users/${user.uid}`);
     const usernameDocRef = firestore.doc(`usernames/${formValue}`);
 
     try {
-      // batch write both docs together
+      // batch write both docs together - users and usernames
       const batch = firestore.batch();
       batch.set(userDocRef, {
         username: formValue,
